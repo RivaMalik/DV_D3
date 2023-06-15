@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+
+
+  </head>
+  <body>
+      <div class="container" >
+          <h2>Plot Representing Number of Crimes Reported in Different Areas of LA</h2>
+          <div class="row">
+                <div  id="barChartDiv" style="padding-left: 20%; padding-top: 5%"></div>
+
+             
+
+                        <script>
+                            console.log("in hrml script");
+                            var response={{data|safe}};
+                            console.log(response);
+
+                              var barChartDiv=d3.select("#barChartDiv");
+                              var margin = {top: 20, right: 20, bottom: 60, left: 60};
+
+                              var svgWidth = 700-margin.left-margin.right, 
+                              svgHeight = 700-margin.top-margin.bottom,
+                              barPadding = 3;
+                              var scaleWidth = 40;
+                              var barWidth = ((svgWidth-scaleWidth) / response.length);
+                              //inserting svg
+
+                              var barChartSvg=barChartDiv.append('svg').attr("width", svgWidth+margin.left+margin.right)
+                                        .attr("height", svgHeight+margin.top+margin.bottom)
+                                        .append("g")
+                                        .attr("transform","translate(" + margin.left + "," + margin.top + ")");
+                              
+                              //defining x scale
+
+                                var xScale = d3.scaleBand()
+                                        .range([ 0, svgWidth ])
+                                        .domain(response.map(function(d) { return d.area; }))
+                                        .padding(0.2);
+
+                                //defining y scale
+                                var yScale = d3.scaleLinear()
+                                    .domain([0,d3.max(response, function(d) { return d.count; })])
+                                    .range([svgHeight,0]);
+
+                                //inserting x scale to svg
+                                var x_axis=d3.axisBottom()
+                                .scale(xScale);
+
+                                barChartSvg.append("g")
+                                .attr("transform", "translate(0," + svgWidth + ")")
+                                .call(x_axis).selectAll("text")
+                                    .attr("transform", "translate(-10,0)rotate(-45)")
+                                    .style("text-anchor", "end");
+
+                                //inserting y scale to svg            
+                                var y_axis = d3.axisLeft()
+                                    .scale(yScale);
+                                barChartSvg.append("g")
+                                    .call(y_axis);
+
+                                       
+
+
+                                        //setting color of bars
+                                var color = d3.scaleOrdinal(d3.schemeCategory10);
+                            //inserting bars to svg
+
+                                barChartSvg.selectAll("mybar")
+                            .data(response)
+                            .enter()
+                            .append("rect")
+                                .attr("x", function(d) { return xScale(d.area); })
+                                .attr("y", function(d) { return yScale(d.count); })
+                                .attr("width", xScale.bandwidth())
+                                .attr("height", function(d) { return svgHeight - yScale(d.count); })
+                                .attr("fill", '#17becf');
+
+                          
+                            </script>
+                
+            </div>
+        </div>
+        
+        
+        
+        
+
+
+
+  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!--<script type='text/javascript' src='q6.js'></script>-->
+
+
+  </body>
+</html>

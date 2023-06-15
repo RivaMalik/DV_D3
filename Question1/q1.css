@@ -1,0 +1,19 @@
+#svg-tag{
+    width: 350;
+    height: 250;
+
+
+}
+
+.s-path{
+
+    fill:none;
+    stroke: cornflowerblue;
+    stroke-width: 2;
+}
+.h-path{
+
+    fill:none;
+    stroke:coral;
+    stroke-width: 2;
+}

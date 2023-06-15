@@ -1,0 +1,12 @@
+
+body{
+    text-align: center;
+  }
+  
+  .container{
+      margin:2%;
+  }
+  #legendDiv{
+      display: none;
+      margin-top:2%;
+  }
